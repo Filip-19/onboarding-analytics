@@ -2,6 +2,8 @@
 
 A dashboard that shows how new users of a study-with-friends app move from sign-up to their first completed focus session, and whether they come back.
 
+**Live demo:** https://onboarding-analytics.onrender.com (on a free plan, so the first visit can take up to a minute to wake up)
+
 Every number on the page is computed by SQL over a raw `events` table in PostgreSQL, served by a FastAPI backend.
 
 ## What it shows
