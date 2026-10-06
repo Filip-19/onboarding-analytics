@@ -1,0 +1,24 @@
+# Render blueprint: one free web service and one free PostgreSQL database.
+databases:
+  - name: onboarding-db
+    plan: free
+    databaseName: onboarding
+
+services:
+  - type: web
+    name: onboarding-analytics
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    # Creates the tables and loads the sample data on the first start only.
+    startCommand: python -m scripts.seed --if-empty && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/meta
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: DATABASE_URL
+        fromDatabase:
+          name: onboarding-db
+          property: connectionString
+      - key: INGEST_API_KEY
+        generateValue: true
